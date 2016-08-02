@@ -524,9 +524,20 @@ $.fn.cycle.API = {
                 return;
         }
 
+        var videos = opts.slides.filter((x) => { return x && $(opts.slides[x]).attr('data-video'); });
+        
+        if ( videos ) {
+            videos.attr('src', '');
+        }
+
         if ( opts.slideActiveClass ) {
             opts.slides.removeClass( opts.slideActiveClass )
                 .eq( opts.currSlide ).addClass( opts.slideActiveClass );
+        }
+
+        var currentSlide = opts.slides.eq(opts.currSlide);
+        if ( currentSlide.attr('data-video') ) {
+            currentSlide.attr('src', currentSlide.attr('data-video'));
         }
 
         if ( isAfter && opts.hideNonActive )
@@ -667,7 +678,7 @@ $.fn.cycle.defaults = {
     slideActiveClass: 'cycle-slide-active',
     slideClass:       'cycle-slide',
     slideCss:         { position: 'absolute', top: 0, left: 0 },
-    slides:          '> img',
+    slides:          '> img, iframe',
     speed:            500,
     startingSlide:    0,
     sync:             true,
